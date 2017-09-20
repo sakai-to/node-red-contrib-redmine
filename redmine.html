@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    RED.nodes.registerType('issues',{
+        category: 'Redmine',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            url: {value:""},
+            key: {value:""},
+            mode: {valu:"list"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"Issues";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="issues">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="icon-tag"></i> URL</label>
+        <input type="text" id="node-input-url" placeholder="http://example.org/redmine">
+    </div>
+    <div class="form-row">
+        <label for="node-input-key"><i class="icon-tag"></i> API key</label>
+        <input type="text" id="node-input-key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-mode"><i class="icon-tag"></i> Mode</label>
+        <select id="node-input-mode">
+            <option value="list">Listing issues</option>
+            <option value="get">Get an issues by id</option>
+            <option value="create">Create an issues</option>
+            <option value="update">Update an issues</option>
+            <option value="delete">Delete an issues</option>
+            <option value="add_watcher">Add a watcher</option>
+            <option value="remove_watcher">Remove a watcher</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="issues">
+    <p>A simple node that converts the message payloads into all redmine-issues characters</p>
+</script>
