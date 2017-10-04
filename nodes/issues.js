@@ -22,21 +22,21 @@ module.exports = function(RED) {
                         return msg;
                     });
             },
-    
+
             // Showing an issue
             "get": function getIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"getting"});
-                return redmine.get_issues_by_id(msg.issue_id, msg.payload)
+                return redmine.get_issue_by_idAsync(msg.issue_id, msg.payload)
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;
                     });
             },
-    
+
             // Creating an issue
             "create": function createIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"creating"});
-                return redmine.create_issue(msg.payload)
+                return redmine.create_issueAsync(msg.payload)
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;
@@ -46,35 +46,34 @@ module.exports = function(RED) {
             // Updating an issue
             "update": function updateIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"updating"});
-                return redmine.update_issue(msg.issue_id, msg.payload)
+                return redmine.update_issueAsync(msg.issue_id, msg.payload)
                     .then((data) => {
-                        msg.payload = data.issue;
                         return msg;
                     });
             },
-    
+
             // Deleting an issue
             "delete": function deleteIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
-                return redmine.delete_issue(msg.issue_id)
+                return redmine.delete_issueAsync(msg.issue_id)
                     .then((data) => {
                         return msg;
                     });
             },
-    
+
             // Adding a watcher
             "addWatcher": function addWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"adding a watcher"});
-                return redmine.add_watcher(msg.issue_id, msg.payload)
+                return redmine.add_watcherAsync(msg.issue_id, msg.payload)
                     .then((data) => {
                         return msg;
                     });
             },
-    
+
             // Removing a watcher
             "removeWatcher": function removeWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"removing a watcher"});
-                return redmine.remove_watcher(msg.issue_id, msg.user_id)
+                return redmine.remove_watcherAsync(msg.issue_id, msg.user_id)
                     .then((data) => {
                         return msg;
                     });
