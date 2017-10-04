@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "node-red": {
     "nodes": {
-      "issues": "redmine.js"
+      "issues": "nodes/issues.js"
     }
   },
   "dependencies": {
