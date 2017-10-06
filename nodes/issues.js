@@ -7,8 +7,10 @@ module.exports = function(RED) {
     function IssuesNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
-        var redmine = Promise.promisifyAll(new Redmine(config.url, {
-            apiKey: config.key
+        var server = RED.nodes.getNode(config.server);
+
+        var redmine = Promise.promisifyAll(new Redmine(server.url, {
+            apiKey: server.key
         }));
 
         const modes = {

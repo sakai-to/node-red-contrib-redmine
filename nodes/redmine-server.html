@@ -1,0 +1,23 @@
+<script type="text/javascript">
+    RED.nodes.registerType('redmine-server',{
+        category: 'config',
+        defaults: {
+            url: {value:"http://localhost:3000", required:true},
+            key: {value:"", required:true},
+        },
+        label: function() {
+            return this.url;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="redmine-server">
+    <div class="form-row">
+        <label for="node-config-input-url"><i class="icon-bookmark"></i> Redmine Server URL</label>
+        <input type="text" id="node-config-input-url">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-key"><i class="icon-bookmark"></i> API Key</label>
+        <input type="text" id="node-config-input-key">
+    </div>
+</script>
