@@ -12,7 +12,13 @@
         outputs:1,
         icon: "file.png",
         label: function() {
-            return this.name||"Issues";
+            if (this.name) {
+                return this.name;
+            } else if (this.mode == "list") {
+                return "list issues";
+            } else {
+                return this.mode + " issue";
+            }
         }
     });
 </script>
