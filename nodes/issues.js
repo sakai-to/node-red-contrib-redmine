@@ -13,6 +13,22 @@ module.exports = function(RED) {
         var redmine = new Redmine(server.url, {apiKey: server.key});
         redmine = Promise.promisifyAll(redmine, {suffix:"_async"});
 
+        function retrieveIssueId(msg, path) {
+            return new Promise((resolve, reject) => {
+                var issueIdStr = _.get(msg, path);
+                if (!_.isNumber(issueIdStr) && !_.isString(issueIdStr)) {
+                    reject(new Error(`msg.${path} must be a number`));
+                } else {
+                    var issueId = Number(issueIdStr);
+                    if (issueId > 0) {
+                        resolve(issueId);
+                    } else {
+                        reject(new Error("Invalid issue ID: " + issueIdStr));
+                    }
+                }
+            });
+        }
+
         const modes = {
             // Listing issues
             "list": function listIssues(msg) {
@@ -27,25 +43,13 @@ module.exports = function(RED) {
 
             // Showing an issue
             "get": function getIssue(msg) {
-                return new Promise(function (resolve, reject) {
-                    node.status({fill:"blue", shape:"ring", text:"getting"});
-                    var issue_id_str = _.get(msg, config.issueIdProperty);
-                    if (!_.isNumber(issue_id_str) && !_.isString(issue_id_str)) {
-                        reject(new Error(`msg.${config.issue_id} must be a number`));
-                    } else {
-                        var issue_id = Number(issue_id_str);
-                        if (issue_id > 0) {
-                            resolve(issue_id);
-                        } else {
-                            reject(new Error("Invalid issue ID: " + issue_id_str));
-                        }
-                    }
-                })
-                .then((issue_id) => redmine.get_issue_by_id_async(issue_id, msg.payload))
-                .then((data) => {
-                    msg.payload = data.issue;
-                    return msg;
-                });
+                node.status({fill:"blue", shape:"ring", text:"getting"});
+                return retrieveIssueId(msg, config.issueIdProperty)
+                    .then((issue_id) => redmine.get_issue_by_id_async(issue_id, msg.payload))
+                    .then((data) => {
+                        msg.payload = data.issue;
+                        return msg;
+                    });
             },
 
             // Creating an issue
