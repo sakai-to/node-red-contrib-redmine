@@ -5,7 +5,8 @@
         defaults: {
             name: {value:""},
             server: {value:"", type:"redmine-server"},
-            mode: {valu:"list"}
+            mode: {value:"list"},
+            issueIdProperty: {value:"", required:true}
         },
         inputs:1,
         outputs:1,
@@ -42,6 +43,10 @@
             <option value="add_watcher">Add a watcher</option>
             <option value="remove_watcher">Remove a watcher</option>
         </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-issueIdProperty"><i class="icon-tag"></i> Issue ID</label>
+        msg.<input type="text" id="node-input-issueIdProperty" style="width:64%">
     </div>
 </script>
 

@@ -3,6 +3,7 @@ module.exports = function(RED) {
 
     const Promise = require('bluebird');    
     const Redmine = require('node-redmine');
+    const _ = require('lodash');
 
     function IssuesNode(config) {
         RED.nodes.createNode(this,config);
@@ -27,12 +28,25 @@ module.exports = function(RED) {
 
             // Showing an issue
             "get": function getIssue(msg) {
-                node.status({fill:"blue", shape:"ring", text:"getting"});
-                return redmine.get_issue_by_idAsync(msg.issue_id, msg.payload)
-                    .then((data) => {
-                        msg.payload = data.issue;
-                        return msg;
-                    });
+                return new Promise(function (resolve, reject) {
+                    node.status({fill:"blue", shape:"ring", text:"getting"});
+                    var issue_id_str = _.get(msg, config.issueIdProperty);
+                    if (!_.isNumber(issue_id_str) && !_.isString(issue_id_str)) {
+                        reject(new Error(`msg.${config.issue_id} must be a number`));
+                    } else {
+                        var issue_id = Number(issue_id_str);
+                        if (issue_id > 0) {
+                            resolve(issue_id);
+                        } else {
+                            reject(new Error("Invalid issue ID: " + issue_id_str));
+                        }
+                    }
+                })
+                .then((issue_id) => redmine.get_issue_by_idAsync(issue_id, msg.payload))
+                .then((data) => {
+                    msg.payload = data.issue;
+                    return msg;
+                });
             },
 
             // Creating an issue
