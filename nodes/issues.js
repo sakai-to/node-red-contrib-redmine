@@ -10,15 +10,14 @@ module.exports = function(RED) {
         var node = this;
         var server = RED.nodes.getNode(config.server);
 
-        var redmine = Promise.promisifyAll(new Redmine(server.url, {
-            apiKey: server.key
-        }));
+        var redmine = new Redmine(server.url, {apiKey: server.key});
+        redmine = Promise.promisifyAll(redmine, {suffix:"_async"});
 
         const modes = {
             // Listing issues
             "list": function listIssues(msg) {
                 node.status({fill:"blue", shape:"ring", text:"listing"});
-                return redmine.issuesAsync(msg.payload)
+                return redmine.issues_async(msg.payload)
                     .then((data) => {
                         msg.payload = data.issues;
                         msg.total_count = data.total_count;
@@ -42,7 +41,7 @@ module.exports = function(RED) {
                         }
                     }
                 })
-                .then((issue_id) => redmine.get_issue_by_idAsync(issue_id, msg.payload))
+                .then((issue_id) => redmine.get_issue_by_id_async(issue_id, msg.payload))
                 .then((data) => {
                     msg.payload = data.issue;
                     return msg;
@@ -52,7 +51,7 @@ module.exports = function(RED) {
             // Creating an issue
             "create": function createIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"creating"});
-                return redmine.create_issueAsync(msg.payload)
+                return redmine.create_issue_async(msg.payload)
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;
@@ -62,7 +61,7 @@ module.exports = function(RED) {
             // Updating an issue
             "update": function updateIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"updating"});
-                return redmine.update_issueAsync(msg.issue_id, msg.payload)
+                return redmine.update_issue_async(msg.issue_id, msg.payload)
                     .then((data) => {
                         return msg;
                     });
@@ -71,7 +70,7 @@ module.exports = function(RED) {
             // Deleting an issue
             "delete": function deleteIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
-                return redmine.delete_issueAsync(msg.issue_id)
+                return redmine.delete_issue_async(msg.issue_id)
                     .then((data) => {
                         return msg;
                     });
@@ -80,7 +79,7 @@ module.exports = function(RED) {
             // Adding a watcher
             "addWatcher": function addWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"adding a watcher"});
-                return redmine.add_watcherAsync(msg.issue_id, msg.payload)
+                return redmine.add_watcher_async(msg.issue_id, msg.payload)
                     .then((data) => {
                         return msg;
                     });
@@ -89,7 +88,7 @@ module.exports = function(RED) {
             // Removing a watcher
             "removeWatcher": function removeWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"removing a watcher"});
-                return redmine.remove_watcherAsync(msg.issue_id, msg.user_id)
+                return redmine.remove_watcher_async(msg.issue_id, msg.user_id)
                     .then((data) => {
                         return msg;
                     });
