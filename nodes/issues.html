@@ -6,7 +6,8 @@
             name: {value:""},
             server: {value:"", type:"redmine-server"},
             mode: {value:"list"},
-            issueIdProperty: {value:"", required:true}
+            issueIdProperty: {value:"issueId", required:true},
+            paramsProperty: {value:"payload", required:true}
         },
         inputs:1,
         outputs:1,
@@ -47,6 +48,10 @@
     <div class="form-row">
         <label for="node-input-issueIdProperty"><i class="icon-tag"></i> Issue ID</label>
         msg.<input type="text" id="node-input-issueIdProperty" style="width:64%">
+    </div>
+    <div class="form-row">
+        <label for="node-input-paramsProperty"><i class="icon-tag"></i> Parameters</label>
+        msg.<input type="text" id="node-input-paramsProperty" style="width:64%">
     </div>
 </script>
 

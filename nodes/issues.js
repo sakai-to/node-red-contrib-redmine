@@ -13,6 +13,7 @@ module.exports = function(RED) {
         var redmine = new Redmine(server.url, {apiKey: server.key});
         redmine = Promise.promisifyAll(redmine, {suffix:"_async"});
 
+        // Issue ID
         function retrieveIssueId(msg, path) {
             return new Promise((resolve, reject) => {
                 var issueIdStr = _.get(msg, path);
@@ -29,11 +30,24 @@ module.exports = function(RED) {
             });
         }
 
+        // Parameters
+        function retrieveParameters(msg, path) {
+            return new Promise((resolve, reject) => {
+                var params = _.get(msg, path);
+                if (!_.isObject(params)) {
+                    reject(new Error(`msg.${path} must be an object`));
+                } else {
+                    resolve(params);
+                }
+            });
+        }
+
         const modes = {
             // Listing issues
             "list": function listIssues(msg) {
                 node.status({fill:"blue", shape:"ring", text:"listing"});
-                return redmine.issues_async(msg.payload)
+                return retrieveParameters(msg, config.paramsProperty)
+                    .then((params) => redmine.issues_async(params))
                     .then((data) => {
                         msg.payload = data.issues;
                         msg.total_count = data.total_count;
@@ -55,7 +69,8 @@ module.exports = function(RED) {
             // Creating an issue
             "create": function createIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"creating"});
-                return redmine.create_issue_async(msg.payload)
+                return retrieveParameters(msg, config.paramsProperty)
+                    .then((params) => redmine.create_issue_async({issue:params}))
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;
@@ -65,8 +80,11 @@ module.exports = function(RED) {
             // Updating an issue
             "update": function updateIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"updating"});
-                return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issueId) => redmine.update_issue_async(issueId, msg.payload))
+                return Promise.all([
+                    retrieveIssueId(msg, config.issueIdProperty),
+                    retrieveParameters(msg, config.paramsProperty)
+                ])
+                    .then((results) => redmine.update_issue_async(results[0], results[1]))
                     .then((data) => {
                         return msg;
                     });
@@ -76,7 +94,7 @@ module.exports = function(RED) {
             "delete": function deleteIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
                 return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issueId) => redmine.delete_issue_async(msg.issue_id))
+                    .then((issueId) => redmine.delete_issue_async(issueId))
                     .then((data) => {
                         return msg;
                     });
