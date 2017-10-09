@@ -65,7 +65,8 @@ module.exports = function(RED) {
             // Updating an issue
             "update": function updateIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"updating"});
-                return redmine.update_issue_async(msg.issue_id, msg.payload)
+                return retrieveIssueId(msg, config.issueIdProperty)
+                    .then((issueId) => redmine.update_issue_async(issueId, msg.payload))
                     .then((data) => {
                         return msg;
                     });
@@ -74,7 +75,8 @@ module.exports = function(RED) {
             // Deleting an issue
             "delete": function deleteIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
-                return redmine.delete_issue_async(msg.issue_id)
+                return retrieveIssueId(msg, config.issueIdProperty)
+                    .then((issueId) => redmine.delete_issue_async(msg.issue_id))
                     .then((data) => {
                         return msg;
                     });
@@ -83,7 +85,8 @@ module.exports = function(RED) {
             // Adding a watcher
             "addWatcher": function addWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"adding a watcher"});
-                return redmine.add_watcher_async(msg.issue_id, msg.payload)
+                return retrieveIssueId(msg, config.issueIdProperty)
+                    .then((issueId) => redmine.add_watcher_async(issueId, msg.payload))
                     .then((data) => {
                         return msg;
                     });
@@ -92,7 +95,8 @@ module.exports = function(RED) {
             // Removing a watcher
             "removeWatcher": function removeWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"removing a watcher"});
-                return redmine.remove_watcher_async(msg.issue_id, msg.user_id)
+                return retrieveIssueId(msg, config.issueIdProperty)
+                    .then((issueId) => redmine.remove_watcher_async(issueId, msg.user_id))
                     .then((data) => {
                         return msg;
                     });
