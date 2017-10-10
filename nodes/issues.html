@@ -6,8 +6,8 @@
             name: {value:""},
             server: {value:"", type:"redmine-server"},
             mode: {value:"list"},
-            issueIdProperty: {value:"issueId", required:true},
-            paramsProperty: {value:"payload", required:true}
+            issueIdProperty: {value:"issueId"},
+            paramsProperty: {value:"payload"}
         },
         inputs:1,
         outputs:1,
@@ -20,8 +20,35 @@
             } else {
                 return this.mode + " issue";
             }
+        },
+        oneditprepare: function() {
+            var node = this;
+            showHidePropertyRows(node.mode);
+            $('#node-input-mode').on('change', function() {
+                showHidePropertyRows(this.value);
+            });
         }
     });
+
+    function showHidePropertyRows(mode) {
+        var issueIdRow = $('.node-input-issue-id-row'),
+            paramsRow = $('.node-input-params-row');
+        switch (mode) {
+            case "get":
+            case "delete":
+                issueIdRow.show();
+                paramsRow.hide();
+                break;
+            case "update":
+                issueIdRow.show();
+                paramsRow.show();
+                break;
+            default:
+                issueIdRow.hide();
+                paramsRow.show();
+                break;
+        }
+    }
 </script>
 
 <script type="text/x-red" data-template-name="issues">
@@ -45,11 +72,11 @@
             <option value="remove_watcher">Remove a watcher</option>
         </select>
     </div>
-    <div class="form-row">
+    <div class="form-row node-input-issue-id-row">
         <label for="node-input-issueIdProperty"><i class="icon-tag"></i> Issue ID</label>
         msg.<input type="text" id="node-input-issueIdProperty" style="width:64%">
     </div>
-    <div class="form-row">
+    <div class="form-row node-input-params-row">
         <label for="node-input-paramsProperty"><i class="icon-tag"></i> Parameters</label>
         msg.<input type="text" id="node-input-paramsProperty" style="width:64%">
     </div>
