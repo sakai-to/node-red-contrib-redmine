@@ -42,6 +42,31 @@ module.exports = function(RED) {
             });
         }
 
+        // Include
+        function retrieveIncludes(config) {
+            return new Promise((resolve, reject) => {
+                var result = null;
+                const flags = {
+                    includeChildren: "children",
+                    includeAttachments: "attachments",
+                    includeRelations: "relations",
+                    includeChangesets: "changesets",
+                    includeJournals: "journals",
+                    includeWatchers: "watchers"
+                };
+                for (var p in flags) {
+                    if (config[p]) {
+                        if (result) {
+                            result += ',' + flags[p];
+                        } else {
+                            result = flags[p];
+                        }
+                    }
+                }
+                resolve({include:result});
+            });
+        }
+
         const modes = {
             // Listing issues
             "list": function listIssues(msg) {
@@ -58,8 +83,11 @@ module.exports = function(RED) {
             // Showing an issue
             "get": function getIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"getting"});
-                return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issue_id) => redmine.get_issue_by_id_async(issue_id, msg.payload))
+                return Promise.all([
+                    retrieveIssueId(msg, config.issueIdProperty),
+                    retrieveIncludes(config)
+                ])
+                    .then((results) => redmine.get_issue_by_id_async(results[0], results[1]))
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;

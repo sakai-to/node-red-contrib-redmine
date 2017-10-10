@@ -7,7 +7,13 @@
             server: {value:"", type:"redmine-server"},
             mode: {value:"list"},
             issueIdProperty: {value:"issueId"},
-            paramsProperty: {value:"payload"}
+            paramsProperty: {value:"payload"},
+            includeChildren: {value:false},
+            includeAttachments: {value:false},
+            includeRelations: {value:false},
+            includeChangesets: {value:false},
+            includeJournals: {value:false},
+            includeWatchers: {value:false}
         },
         inputs:1,
         outputs:1,
@@ -32,20 +38,28 @@
 
     function showHidePropertyRows(mode) {
         var issueIdRow = $('.node-input-issue-id-row'),
-            paramsRow = $('.node-input-params-row');
+            paramsRow = $('.node-input-params-row'),
+            includeRow = $('.node-input-include-row');
         switch (mode) {
             case "get":
+                issueIdRow.show();
+                paramsRow.hide();
+                includeRow.show();
+                break;
             case "delete":
                 issueIdRow.show();
                 paramsRow.hide();
+                includeRow.hide();
                 break;
             case "update":
                 issueIdRow.show();
                 paramsRow.show();
+                includeRow.hide();
                 break;
             default:
                 issueIdRow.hide();
                 paramsRow.show();
+                includeRow.hide();
                 break;
         }
     }
@@ -79,6 +93,41 @@
     <div class="form-row node-input-params-row">
         <label for="node-input-paramsProperty"><i class="icon-tag"></i> Parameters</label>
         msg.<input type="text" id="node-input-paramsProperty" style="width:64%">
+    </div>
+    <div class="form-row node-input-include-row">
+        <div>
+            <i class="icon-tag"></i> Fetch associated data
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeChildren" style="width:auto">
+            <label for="node-input-includeChildren" style="width:70%">children</label>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeAttachments" style="width:auto">
+            <label for="node-input-includeAttachments" style="width: 70%;">attachments</label>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeRelations" style="width:auto">
+            <label for="node-input-includeRelations" style="width: 70%;">relations</label>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeChangesets" style="width:auto">
+            <label for="node-input-includeChangesets" style="width: 70%;">changesets</label>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeJournals" style="width:auto">
+            <label for="node-input-includeJournals" style="width: 70%;">journals</label>
+        </div>
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-includeWatchers" style="width:auto">
+            <label for="node-input-includeWatchers" style="width: 70%;">watchers</label>
+        </div>
     </div>
 </script>
 
