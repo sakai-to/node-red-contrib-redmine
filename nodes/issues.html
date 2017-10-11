@@ -77,7 +77,7 @@
     <div class="form-row">
         <label for="node-input-mode"><i class="icon-tag"></i> Mode</label>
         <select id="node-input-mode">
-            <option value="list">Listing issues</option>
+            <option value="list">List issues</option>
             <option value="get">Get an issue by id</option>
             <option value="create">Create an issue</option>
             <option value="update">Update an issue</option>
@@ -132,5 +132,37 @@
 </script>
 
 <script type="text/x-red" data-help-name="issues">
-    <p>A simple node that converts the message payloads into all redmine-issues characters</p>
+    <p>Manipulate Redmine issues.</p>
+    <p>You can select how this node manipulates the issues by selecting <code>Mode</code> property of this node.</p>
+
+    <h3>List issues</h3>
+    <p><code>Parameters</code> property should be set the property name of an object which contains key-value pairs of parameters and optional filters like the following:</p>
+    <pre>{
+    project_id: 2,
+    tracker_id: 1
+}</pre>
+    <p>The result of the query for Redmine will be set into <code>msg.payload</code>. In addition, the total count of issues will be set into <code>msg.total_count</code>.</p>
+
+    <h3>Get an issue by id</h3>
+    <p><code>Issue ID</code> property should be set the property name of the issue ID. In addition, some data associated with the issue can be fetched.</p>
+    <p>The result of the object which has issue attributes will be set into <code>msg.payload</code>.</p>
+
+    <h3>Create an issues</h3>
+    <p><code>Parameters</code> property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
+    <p>The result of the created issue will be set into <code>msg.payload</code>.</p>
+
+    <h3>Update an issues</h3>
+    <p><code>Issue ID</code> property should be set the property name of the issue ID. Also, <code>parameters</code> property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
+
+    <h3>Delete an issues</h3>
+    <p><code>Issue ID</code> property should be set the property name of the issue ID. In addition, some data associated with the issue can be fetched.</p>
+
+    <h3>Cache errors</h3>
+    <p>Cache node can be used to catch an error which occur in this node and continue some processings.</p>
+
+    <h3>References</h3>
+        <ul>
+            <li><a href="http://www.redmine.org/projects/redmine/wiki/Rest_Issues" target="_blank">Redmine REST API - Issues</a> - full description of Redmine Rest API</li>
+            <li><a href="" target="_blank">GitHub</a> - the nodes github repository</li>
+        </ul>
 </script>
