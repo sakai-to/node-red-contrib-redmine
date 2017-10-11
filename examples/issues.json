@@ -1,0 +1,437 @@
+[
+    {
+        "id": "cb05ba4.8a1a748",
+        "type": "tab",
+        "label": "Redmine issues",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "e72254c6.011fe8",
+        "type": "inject",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "b2823a30.b037d8"
+            ]
+        ]
+    },
+    {
+        "id": "da6f41fe.6c10b",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "total_count",
+        "x": 640,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ac6dfc9.1c91e",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 630,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "1896a014.186ff",
+        "type": "issues",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "list",
+        "issueIdProperty": "issueId",
+        "paramsProperty": "payload",
+        "x": 440,
+        "y": 120,
+        "wires": [
+            [
+                "da6f41fe.6c10b",
+                "ac6dfc9.1c91e"
+            ]
+        ]
+    },
+    {
+        "id": "b2823a30.b037d8",
+        "type": "function",
+        "z": "cb05ba4.8a1a748",
+        "name": "parameters",
+        "func": "msg.payload = {\n    project_id: 1\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 120,
+        "wires": [
+            [
+                "1896a014.186ff"
+            ]
+        ]
+    },
+    {
+        "id": "f5467988.e71a88",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Listing issues",
+        "info": "",
+        "x": 70,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "699ffc6.5f4b704",
+        "type": "inject",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 260,
+        "wires": [
+            [
+                "64933661.0ceed8"
+            ]
+        ]
+    },
+    {
+        "id": "43c27526.e4e03c",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 630,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "c3c8a895.609268",
+        "type": "issues",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "get",
+        "issueIdProperty": "issueId",
+        "paramsProperty": "payload",
+        "includeChildren": true,
+        "includeAttachments": true,
+        "includeRelations": true,
+        "includeChangesets": true,
+        "includeJournals": true,
+        "includeWatchers": true,
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "43c27526.e4e03c"
+            ]
+        ]
+    },
+    {
+        "id": "c2f0d399.d9c4b",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Showing an issue",
+        "info": "",
+        "x": 80,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "37f9d9cc.c31566",
+        "type": "inject",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 360,
+        "wires": [
+            [
+                "d0ddc42c.16aa98"
+            ]
+        ]
+    },
+    {
+        "id": "14ace208.f9b51e",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 630,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "4a70b6e3.994878",
+        "type": "issues",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "create",
+        "issueIdProperty": "issueId",
+        "paramsProperty": "payload",
+        "x": 450,
+        "y": 360,
+        "wires": [
+            [
+                "14ace208.f9b51e"
+            ]
+        ]
+    },
+    {
+        "id": "d0ddc42c.16aa98",
+        "type": "function",
+        "z": "cb05ba4.8a1a748",
+        "name": "parameters",
+        "func": "msg.payload = {\n    project_id: 1,\n    tracker_id: 1,\n    status_id: 1,\n    proirity_id:1,\n    subject: \"テスト\",\n    description: \"テストです。\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 360,
+        "wires": [
+            [
+                "4a70b6e3.994878"
+            ]
+        ]
+    },
+    {
+        "id": "ed97c6ef.1b6d28",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Creating an issue",
+        "info": "",
+        "x": 80,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "2585fa65.6a2386",
+        "type": "inject",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "4bc18d95.5b1874"
+            ]
+        ]
+    },
+    {
+        "id": "1997da06.397df6",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 630,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3945b196.af607e",
+        "type": "issues",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "update",
+        "issueIdProperty": "issue_id",
+        "paramsProperty": "payload",
+        "x": 450,
+        "y": 460,
+        "wires": [
+            [
+                "1997da06.397df6"
+            ]
+        ]
+    },
+    {
+        "id": "feedbe9f.d42df",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Updating an issue",
+        "info": "",
+        "x": 90,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "6889beb8.aec32",
+        "type": "inject",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 560,
+        "wires": [
+            [
+                "3d0992f4.8eea1e"
+            ]
+        ]
+    },
+    {
+        "id": "edbc958b.825fe8",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 630,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "b68a7561.a65258",
+        "type": "issues",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "delete",
+        "issueIdProperty": "issueId",
+        "paramsProperty": "payload",
+        "x": 450,
+        "y": 560,
+        "wires": [
+            [
+                "edbc958b.825fe8"
+            ]
+        ]
+    },
+    {
+        "id": "10bc43b5.09aa4c",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Deleting an issue",
+        "info": "",
+        "x": 80,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "64933661.0ceed8",
+        "type": "change",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "issueId",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 260,
+        "wires": [
+            [
+                "c3c8a895.609268"
+            ]
+        ]
+    },
+    {
+        "id": "4bc18d95.5b1874",
+        "type": "function",
+        "z": "cb05ba4.8a1a748",
+        "name": "parameters",
+        "func": "msg.issue_id = 4;\nmsg.payload = {\n    issue: {\n        project_id: 1,\n        tracker_id: 1,\n        status_id: 1,\n        subject: \"テスト2\",\n        description: \"テスト2です。\"\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 250,
+        "y": 460,
+        "wires": [
+            [
+                "3945b196.af607e"
+            ]
+        ]
+    },
+    {
+        "id": "3d0992f4.8eea1e",
+        "type": "change",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "issueId",
+                "pt": "msg",
+                "to": "4",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 560,
+        "wires": [
+            [
+                "b68a7561.a65258"
+            ]
+        ]
+    },
+    {
+        "id": "b1954eab.6f788",
+        "type": "comment",
+        "z": "cb05ba4.8a1a748",
+        "name": "Redmine issues node examples",
+        "info": "",
+        "x": 130,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "bb3bab09.cda408",
+        "type": "redmine-server",
+        "z": "",
+        "url": "http://localhost:3000",
+        "key": "fc7c91170e98800a698fe6cc90ffbce36fc7e681"
+    }
+]
