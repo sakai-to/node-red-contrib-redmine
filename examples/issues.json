@@ -17,7 +17,7 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 90,
+        "x": 110,
         "y": 120,
         "wires": [
             [
@@ -33,7 +33,7 @@
         "active": true,
         "console": "false",
         "complete": "total_count",
-        "x": 640,
+        "x": 660,
         "y": 120,
         "wires": []
     },
@@ -45,7 +45,7 @@
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 630,
+        "x": 650,
         "y": 160,
         "wires": []
     },
@@ -58,7 +58,7 @@
         "mode": "list",
         "issueIdProperty": "issueId",
         "paramsProperty": "payload",
-        "x": 440,
+        "x": 460,
         "y": 120,
         "wires": [
             [
@@ -75,7 +75,7 @@
         "func": "msg.payload = {\n    project_id: 1\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 250,
+        "x": 270,
         "y": 120,
         "wires": [
             [
@@ -89,7 +89,7 @@
         "z": "cb05ba4.8a1a748",
         "name": "Listing issues",
         "info": "",
-        "x": 70,
+        "x": 90,
         "y": 80,
         "wires": []
     },
@@ -104,7 +104,7 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 90,
+        "x": 110,
         "y": 260,
         "wires": [
             [
@@ -120,7 +120,7 @@
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 630,
+        "x": 650,
         "y": 260,
         "wires": []
     },
@@ -139,7 +139,7 @@
         "includeChangesets": true,
         "includeJournals": true,
         "includeWatchers": true,
-        "x": 440,
+        "x": 460,
         "y": 260,
         "wires": [
             [
@@ -153,7 +153,7 @@
         "z": "cb05ba4.8a1a748",
         "name": "Showing an issue",
         "info": "",
-        "x": 80,
+        "x": 100,
         "y": 220,
         "wires": []
     },
@@ -168,7 +168,7 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 90,
+        "x": 110,
         "y": 360,
         "wires": [
             [
@@ -184,7 +184,7 @@
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 630,
+        "x": 650,
         "y": 360,
         "wires": []
     },
@@ -197,7 +197,7 @@
         "mode": "create",
         "issueIdProperty": "issueId",
         "paramsProperty": "payload",
-        "x": 450,
+        "x": 470,
         "y": 360,
         "wires": [
             [
@@ -213,7 +213,7 @@
         "func": "msg.payload = {\n    project_id: 1,\n    tracker_id: 1,\n    status_id: 1,\n    proirity_id:1,\n    subject: \"テスト\",\n    description: \"テストです。\"\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 250,
+        "x": 270,
         "y": 360,
         "wires": [
             [
@@ -227,7 +227,7 @@
         "z": "cb05ba4.8a1a748",
         "name": "Creating an issue",
         "info": "",
-        "x": 80,
+        "x": 100,
         "y": 320,
         "wires": []
     },
@@ -242,7 +242,7 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 90,
+        "x": 110,
         "y": 460,
         "wires": [
             [
@@ -258,7 +258,7 @@
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 630,
+        "x": 650,
         "y": 460,
         "wires": []
     },
@@ -271,7 +271,7 @@
         "mode": "update",
         "issueIdProperty": "issue_id",
         "paramsProperty": "payload",
-        "x": 450,
+        "x": 470,
         "y": 460,
         "wires": [
             [
@@ -285,7 +285,7 @@
         "z": "cb05ba4.8a1a748",
         "name": "Updating an issue",
         "info": "",
-        "x": 90,
+        "x": 110,
         "y": 420,
         "wires": []
     },
@@ -300,7 +300,7 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 90,
+        "x": 110,
         "y": 560,
         "wires": [
             [
@@ -316,7 +316,7 @@
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 630,
+        "x": 650,
         "y": 560,
         "wires": []
     },
@@ -329,7 +329,7 @@
         "mode": "delete",
         "issueIdProperty": "issueId",
         "paramsProperty": "payload",
-        "x": 450,
+        "x": 470,
         "y": 560,
         "wires": [
             [
@@ -343,7 +343,7 @@
         "z": "cb05ba4.8a1a748",
         "name": "Deleting an issue",
         "info": "",
-        "x": 80,
+        "x": 100,
         "y": 520,
         "wires": []
     },
@@ -366,7 +366,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 260,
+        "x": 280,
         "y": 260,
         "wires": [
             [
@@ -379,10 +379,10 @@
         "type": "function",
         "z": "cb05ba4.8a1a748",
         "name": "parameters",
-        "func": "msg.issue_id = 4;\nmsg.payload = {\n    issue: {\n        project_id: 1,\n        tracker_id: 1,\n        status_id: 1,\n        subject: \"テスト2\",\n        description: \"テスト2です。\"\n    }\n};\nreturn msg;",
+        "func": "msg.issue_id = 2;\nmsg.payload = {\n    project_id: 1,\n    tracker_id: 1,\n    status_id: 1,\n    subject: \"テスト2\",\n    description: \"テスト2です。\"\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 250,
+        "x": 270,
         "y": 460,
         "wires": [
             [
@@ -400,7 +400,7 @@
                 "t": "set",
                 "p": "issueId",
                 "pt": "msg",
-                "to": "4",
+                "to": "2",
                 "tot": "num"
             }
         ],
@@ -409,7 +409,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 260,
+        "x": 280,
         "y": 560,
         "wires": [
             [
@@ -423,8 +423,34 @@
         "z": "cb05ba4.8a1a748",
         "name": "Redmine issues node examples",
         "info": "",
-        "x": 130,
+        "x": 150,
         "y": 20,
+        "wires": []
+    },
+    {
+        "id": "6e9c0c00.ba0bb4",
+        "type": "catch",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "scope": null,
+        "x": 100,
+        "y": 640,
+        "wires": [
+            [
+                "5b3cab4c.d704a4"
+            ]
+        ]
+    },
+    {
+        "id": "5b3cab4c.d704a4",
+        "type": "debug",
+        "z": "cb05ba4.8a1a748",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "error",
+        "x": 260,
+        "y": 640,
         "wires": []
     },
     {
