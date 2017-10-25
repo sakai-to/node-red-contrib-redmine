@@ -13,7 +13,8 @@
             includeRelations: {value:false},
             includeChangesets: {value:false},
             includeJournals: {value:false},
-            includeWatchers: {value:false}
+            includeWatchers: {value:false},
+            allIssues: {value:false}
         },
         inputs:1,
         outputs:1,
@@ -39,27 +40,38 @@
     function showHidePropertyRows(mode) {
         var issueIdRow = $('.node-input-issue-id-row'),
             paramsRow = $('.node-input-params-row'),
-            includeRow = $('.node-input-include-row');
+            includeRow = $('.node-input-include-row'),
+            allIssuesRow = $('.node-input-all-issues-row');
         switch (mode) {
+            case "list":
+                issueIdRow.hide();
+                paramsRow.show();
+                includeRow.hide();
+                allIssuesRow.show();
+                break;
             case "get":
                 issueIdRow.show();
                 paramsRow.hide();
                 includeRow.show();
+                allIssuesRow.hide();
                 break;
             case "delete":
                 issueIdRow.show();
                 paramsRow.hide();
                 includeRow.hide();
+                allIssuesRow.hide();
                 break;
             case "update":
                 issueIdRow.show();
                 paramsRow.show();
                 includeRow.hide();
+                allIssuesRow.hide();
                 break;
             default:
                 issueIdRow.hide();
                 paramsRow.show();
                 includeRow.hide();
+                allIssuesRow.hide();
                 break;
         }
     }
@@ -131,7 +143,14 @@
             <label for="node-input-includeWatchers" style="width: 70%;">watchers</label>
         </div>
     </div>
-</script>
+    <div class="form-row node-input-all-issues-row">
+        <div>
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-allIssues" style="width:auto">
+            <label for="node-input-allIssues" style="width: 70%;">fetch all issues</label>
+        </div>
+    </div>
+    </script>
 
 <script type="text/x-red" data-help-name="issues">
     <p>Manipulate Redmine issues.</p>
@@ -143,6 +162,8 @@
     project_id: 2,
     tracker_id: 1
 }</pre>
+    <p>When fetch all issues property is checked, this node accesses Redmine REST API repeatedly to list all issues.
+        Also, the <code>offset</code> and the <code>limit</code> properties of the object specified by the Parameters property will be ignored.</p>
     <p>The result of the query for Redmine will be set into <code>msg.payload</code>. In addition, the total count of issues will be set into <code>msg.total_count</code>.</p>
 
     <h3>Get an issue by id</h3>

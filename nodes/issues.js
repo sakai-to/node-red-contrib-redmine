@@ -71,13 +71,33 @@ module.exports = function(RED) {
             // Listing issues
             "list": function listIssues(msg) {
                 node.status({fill:"blue", shape:"ring", text:"listing"});
+                var allIssues = config.allIssues;
                 return retrieveParameters(msg, config.paramsProperty)
-                    .then((params) => redmine.issues_async(params))
-                    .then((data) => {
-                        msg.payload = data.issues;
-                        msg.total_count = data.total_count;
+                    .then(Promise.coroutine(function* (params) {
+                        var issues = [],
+                            total_count = 0;
+                        do {
+                            if (allIssues) {
+                                params.limit = 100;
+                                params.offset = issues.length;
+                            }
+                            let data = yield redmine.issues_async(params);
+                            if (data && _.isArray(data.issues) && _.isNumber(data.total_count)) {
+                                if (total_count == data.total_count || total_count === 0) {
+                                    issues = _.concat(issues, data.issues);
+                                    total_count = data.total_count;
+                                } else {
+                                    // Issues were added/deleted while fetching. Retry
+                                    issues = [];
+                                    total_count = 0;
+                                }
+                            }
+                        } while (allIssues && issues.length < total_count);
+
+                        msg.payload = issues;
+                        msg.total_count = total_count;
                         return msg;
-                    });
+                    }));
             },
 
             // Showing an issue
