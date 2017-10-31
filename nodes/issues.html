@@ -154,32 +154,33 @@
 
 <script type="text/x-red" data-help-name="issues">
     <p>Manipulate Redmine issues.</p>
-    <p>You can select how this node manipulates the issues by selecting <code>Mode</code> property of this node.</p>
+    <p>You can select how this node manipulates the issues by selecting the Mode property of this node.</p>
 
     <h3>List issues</h3>
-    <p><code>Parameters</code> property should be set the property name of an object which contains key-value pairs of parameters and optional filters like the following:</p>
+    <p>The Parameters property should be set the property name of an object which contains key-value pairs of parameters and optional filters like the following:</p>
     <pre>{
     project_id: 2,
     tracker_id: 1
 }</pre>
     <p>When fetch all issues property is checked, this node accesses Redmine REST API repeatedly to list all issues.
         Also, the <code>offset</code> and the <code>limit</code> properties of the object specified by the Parameters property will be ignored.</p>
-    <p>The result of the query for Redmine will be set into <code>msg.payload</code>. In addition, the total count of issues will be set into <code>msg.total_count</code>.</p>
+    <p>The result of the query for Redmine will be set into <code>msg.payload</code>.
+        In addition, the total count of issues will be set into <code>msg.total_count</code>.</p>
 
     <h3>Get an issue by id</h3>
-    <p><code>Issue ID</code> property should be set the property name of the issue ID. In addition, some data associated with the issue can be fetched.</p>
+    <p>The Issue ID property should be set the property name of the issue ID. In addition, some data associated with the issue can be fetched.</p>
     <p>The result of the object which has issue attributes will be set into <code>msg.payload</code>.</p>
 
     <h3>Create an issues</h3>
-    <p><code>Parameters</code> property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
+    <p>The Parameters property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
     <p>The result of the created issue will be set into <code>msg.payload</code>.</p>
 
     <h3>Update an issues</h3>
-    <p><code>Issue ID</code> property should be set the property name of the issue ID. Also, <code>Parameters</code> property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
+    <p>The Issue ID property should be set the property name of the issue ID. Also, the Parameters property should be set the property name of an object which contains key-value pairs same as list issues mode.</p>
     <p>No data will be set after updating an issue.</p>
 
     <h3>Delete an issues</h3>
-    <p><code>Issue ID</code> property should be set the property name of the issue ID.</p>
+    <p>The Issue ID property should be set the property name of the issue ID.</p>
     <p>No data will be set after deleting an issue.</p>
 
     <h3>Catch errors</h3>
