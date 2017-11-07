@@ -1,0 +1,913 @@
+[
+    {
+        "id": "83b32618.ffc598",
+        "type": "tab",
+        "label": "Redmine users",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "170fa75.1736c59",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Redmine users node examples",
+        "info": "",
+        "x": 150,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "3e5e0c47.cc74e4",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "e4907de9.3dd28"
+            ]
+        ]
+    },
+    {
+        "id": "e4907de9.3dd28",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "no parameters",
+        "func": "delete msg.filter;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "3009b272.0ff62e"
+            ]
+        ]
+    },
+    {
+        "id": "81ec4307.0a548",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "total_count",
+        "x": 660,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "d4e7857b.7cdb38",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ba2f59c6.e7d8b8",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Listing users",
+        "info": "",
+        "x": 90,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3009b272.0ff62e",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "list",
+        "filter": "filter",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "81ec4307.0a548",
+                "d4e7857b.7cdb38"
+            ]
+        ]
+    },
+    {
+        "id": "283a4060.7f40a",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "b9c0e659.0bd458"
+            ]
+        ]
+    },
+    {
+        "id": "b9c0e659.0bd458",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "empty parameters",
+        "func": "msg.filter = {\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "3009b272.0ff62e"
+            ]
+        ]
+    },
+    {
+        "id": "eb1805fb.c96df8",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 240,
+        "wires": [
+            [
+                "f9cb4b02.a001d8"
+            ]
+        ]
+    },
+    {
+        "id": "f9cb4b02.a001d8",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "name = a",
+        "func": "msg.filter = {\n    name: \"a\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "3009b272.0ff62e"
+            ]
+        ]
+    },
+    {
+        "id": "db5d487e.70c468",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 280,
+        "wires": [
+            [
+                "c58ef569.bab658"
+            ]
+        ]
+    },
+    {
+        "id": "c58ef569.bab658",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "name = z",
+        "func": "msg.filter = {\n    name: \"z\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 280,
+        "wires": [
+            [
+                "3009b272.0ff62e"
+            ]
+        ]
+    },
+    {
+        "id": "549c099.56de9f8",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "85afc11e.bd8d2"
+            ]
+        ]
+    },
+    {
+        "id": "85afc11e.bd8d2",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "list",
+        "filter": "",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 460,
+        "y": 120,
+        "wires": [
+            [
+                "81ec4307.0a548",
+                "d4e7857b.7cdb38"
+            ]
+        ]
+    },
+    {
+        "id": "ea7e546e.401e88",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "1bec36ae.9adcf9"
+            ]
+        ]
+    },
+    {
+        "id": "1bec36ae.9adcf9",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "userId = 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 380,
+        "wires": [
+            [
+                "a09c3f6d.5451e"
+            ]
+        ]
+    },
+    {
+        "id": "61980865.5e55b8",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8086a227.677b6",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Get a user",
+        "info": "",
+        "x": 80,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a09c3f6d.5451e",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "get",
+        "filter": "filter",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 460,
+        "y": 380,
+        "wires": [
+            [
+                "61980865.5e55b8"
+            ]
+        ]
+    },
+    {
+        "id": "34bc166f.d86b7a",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 580,
+        "wires": [
+            [
+                "31ca186c.92d1b8"
+            ]
+        ]
+    },
+    {
+        "id": "31ca186c.92d1b8",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "user = 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "user",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 580,
+        "wires": [
+            [
+                "467ee35.587401c"
+            ]
+        ]
+    },
+    {
+        "id": "467ee35.587401c",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "get",
+        "filter": "filter",
+        "userId": "user",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": true,
+        "includeGroups": true,
+        "x": 460,
+        "y": 580,
+        "wires": [
+            [
+                "3036213c.2f0b3e"
+            ]
+        ]
+    },
+    {
+        "id": "3036213c.2f0b3e",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "1cd688f4.9156e7",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "d46ef838.6ee3f8"
+            ]
+        ]
+    },
+    {
+        "id": "d46ef838.6ee3f8",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "userId = \"1\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 270,
+        "y": 420,
+        "wires": [
+            [
+                "a09c3f6d.5451e"
+            ]
+        ]
+    },
+    {
+        "id": "d63735e1.0efd88",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 460,
+        "wires": [
+            [
+                "35ffc718.0a0028"
+            ]
+        ]
+    },
+    {
+        "id": "35ffc718.0a0028",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "userId = \"\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 270,
+        "y": 460,
+        "wires": [
+            [
+                "a09c3f6d.5451e"
+            ]
+        ]
+    },
+    {
+        "id": "44aa7057.87307",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 540,
+        "wires": [
+            [
+                "ccdab718.a1a6f8"
+            ]
+        ]
+    },
+    {
+        "id": "ccdab718.a1a6f8",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "userId = 100000",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "100000",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 540,
+        "wires": [
+            [
+                "a09c3f6d.5451e"
+            ]
+        ]
+    },
+    {
+        "id": "e13370ba.75671",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 500,
+        "wires": [
+            [
+                "2b77fa56.23ebf6"
+            ]
+        ]
+    },
+    {
+        "id": "2b77fa56.23ebf6",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "userId = 0",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 260,
+        "y": 500,
+        "wires": [
+            [
+                "a09c3f6d.5451e"
+            ]
+        ]
+    },
+    {
+        "id": "84f09441.4ba1b8",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 680,
+        "wires": [
+            [
+                "a948f2ea.18fd4"
+            ]
+        ]
+    },
+    {
+        "id": "952070cb.0f759",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "create",
+        "filter": "filter",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "61430b17.e994b4",
+                "27fc54bc.0a406c"
+            ]
+        ]
+    },
+    {
+        "id": "61430b17.e994b4",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "29949205.9f46fe",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Create a user",
+        "info": "",
+        "x": 90,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "a948f2ea.18fd4",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "testuser",
+        "func": "msg.payload = {\n    login: \"testuser\",\n    password: \"testusersecret\",\n    firstname: \"Test\",\n    lastname: \"User\",\n    mail: \"testuser@example.net\"\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 260,
+        "y": 680,
+        "wires": [
+            [
+                "952070cb.0f759"
+            ]
+        ]
+    },
+    {
+        "id": "bfaefdcb.880f6",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 780,
+        "wires": [
+            [
+                "6565c8ab.b6cf98"
+            ]
+        ]
+    },
+    {
+        "id": "ecb24935.efd5b8",
+        "type": "function",
+        "z": "83b32618.ffc598",
+        "name": "User Attributes",
+        "func": "msg.payload = {\n    status: 3 // locked\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 780,
+        "wires": [
+            [
+                "df46c2e2.e0c16"
+            ]
+        ]
+    },
+    {
+        "id": "df46c2e2.e0c16",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "update",
+        "filter": "filter",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 670,
+        "y": 780,
+        "wires": [
+            [
+                "edf7d411.d6a298"
+            ]
+        ]
+    },
+    {
+        "id": "edf7d411.d6a298",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 850,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "8dfd1902.dffe58",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Update a user",
+        "info": "",
+        "x": 90,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "de4913f6.a66fc",
+        "type": "inject",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 110,
+        "y": 880,
+        "wires": [
+            [
+                "ba17ea64.923f78"
+            ]
+        ]
+    },
+    {
+        "id": "eea9f2fb.00483",
+        "type": "users",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "server": "bb3bab09.cda408",
+        "mode": "delete",
+        "filter": "filter",
+        "userId": "userId",
+        "userAttributes": "payload",
+        "sendInformation": false,
+        "includeMemberships": false,
+        "includeGroups": false,
+        "x": 470,
+        "y": 880,
+        "wires": [
+            [
+                "763fba46.16b614"
+            ]
+        ]
+    },
+    {
+        "id": "763fba46.16b614",
+        "type": "debug",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "4345deb1.ec73c",
+        "type": "comment",
+        "z": "83b32618.ffc598",
+        "name": "Delete a user",
+        "info": "",
+        "x": 90,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "ba17ea64.923f78",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "userId",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 880,
+        "wires": [
+            [
+                "eea9f2fb.00483"
+            ]
+        ]
+    },
+    {
+        "id": "27fc54bc.0a406c",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "flow",
+                "to": "payload.id",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6565c8ab.b6cf98",
+        "type": "change",
+        "z": "83b32618.ffc598",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "userId",
+                "pt": "msg",
+                "to": "userId",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 780,
+        "wires": [
+            [
+                "ecb24935.efd5b8"
+            ]
+        ]
+    },
+    {
+        "id": "bb3bab09.cda408",
+        "type": "redmine-server",
+        "z": "",
+        "url": "http://localhost:3000",
+        "key": "fc7c91170e98800a698fe6cc90ffbce36fc7e681"
+    }
+]

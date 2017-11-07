@@ -19,7 +19,8 @@
   "node-red": {
     "nodes": {
       "redmine-server": "nodes/redmine-server.js",
-      "issues": "nodes/issues.js"
+      "issues": "nodes/issues.js",
+      "users": "nodes/users.js"
     }
   },
   "dependencies": {
