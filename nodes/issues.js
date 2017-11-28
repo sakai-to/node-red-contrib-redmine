@@ -8,10 +8,25 @@ module.exports = function(RED) {
     function IssuesNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
-        var server = RED.nodes.getNode(config.server);
 
-        var redmine = new Redmine(server.url, {apiKey: server.key});
-        redmine = Promise.promisifyAll(redmine, {suffix:"_async"});
+        function createClient(config, msg) {
+            var server = RED.nodes.getNode(config.server);
+            var redmine = new Redmine(server.url, {
+                apiKey: server.key,
+                impersonate: _.get(msg, server.impersonate)
+            });
+            if (!_.hasIn(redmine, 'impersonate')) {
+                Object.defineProperty(redmine, 'impersonate', {
+                    get: function() {
+                        return this.config.impersonate;
+                    },
+                    set: function(username) {
+                        this.config.impersonate = username;
+                    }
+                });
+            }
+            return redmine;
+        }
 
         // Issue ID
         function retrieveIssueId(msg, path) {
@@ -74,14 +89,15 @@ module.exports = function(RED) {
                 var allIssues = config.allIssues;
                 return retrieveParameters(msg, config.paramsProperty)
                     .then(Promise.coroutine(function* (params) {
-                        var issues = [],
+                        var redmine = createClient(config, msg),
+                            issues = [],
                             total_count = 0;
+                        if (allIssues) {
+                            params.limit = 100;
+                            params.offset = issues.length;
+                        }
                         do {
-                            if (allIssues) {
-                                params.limit = 100;
-                                params.offset = issues.length;
-                            }
-                            let data = yield redmine.issues_async(params);
+                            let data = yield Promise.promisify(redmine.issues, {context: redmine})(params);
                             if (data && _.isArray(data.issues) && _.isNumber(data.total_count)) {
                                 if (total_count == data.total_count || total_count === 0) {
                                     issues = _.concat(issues, data.issues);
@@ -107,18 +123,24 @@ module.exports = function(RED) {
                     retrieveIssueId(msg, config.issueIdProperty),
                     retrieveIncludes(config)
                 ])
-                    .then((results) => redmine.get_issue_by_id_async(results[0], results[1]))
-                    .then((data) => {
-                        msg.payload = data.issue;
-                        return msg;
-                    });
+                .then((results) => {
+                    var redmine = createClient(config, msg);
+                    return Promise.promisify(redmine.get_issue_by_id, {context: redmine})(results[0], results[1]);
+                })
+                .then((data) => {
+                    msg.payload = data.issue;
+                    return msg;
+                });
             },
 
             // Creating an issue
             "create": function createIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"creating"});
                 return retrieveParameters(msg, config.paramsProperty)
-                    .then((params) => redmine.create_issue_async({issue:params}))
+                    .then((params) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.create_issue, {context: redmine})({issue:params});
+                    })
                     .then((data) => {
                         msg.payload = data.issue;
                         return msg;
@@ -132,17 +154,23 @@ module.exports = function(RED) {
                     retrieveIssueId(msg, config.issueIdProperty),
                     retrieveParameters(msg, config.paramsProperty)
                 ])
-                    .then((results) => redmine.update_issue_async(results[0], results[1]))
-                    .then((data) => {
-                        return msg;
-                    });
+                .then((results) => {
+                    var redmine = createClient(config, msg);
+                    return Promise.promisify(redmine.update_issue, {context: redmine})(results[0], results[1]);
+                })
+                .then((data) => {
+                    return msg;
+                });
             },
 
             // Deleting an issue
             "delete": function deleteIssue(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
                 return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issueId) => redmine.delete_issue_async(issueId))
+                    .then((issueId) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.delete_issue, {context: redmine})(issueId);
+                    })
                     .then((data) => {
                         return msg;
                     });
@@ -152,7 +180,10 @@ module.exports = function(RED) {
             "addWatcher": function addWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"adding a watcher"});
                 return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issueId) => redmine.add_watcher_async(issueId, msg.payload))
+                    .then((issueId) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.add_watcher, {context: redmine})(issueId, msg.payload);
+                    })
                     .then((data) => {
                         return msg;
                     });
@@ -162,7 +193,10 @@ module.exports = function(RED) {
             "removeWatcher": function removeWatcher(msg) {
                 node.status({fill:"blue", shape:"ring", text:"removing a watcher"});
                 return retrieveIssueId(msg, config.issueIdProperty)
-                    .then((issueId) => redmine.remove_watcher_async(issueId, msg.user_id))
+                    .then((issueId) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.remove_watcher, {context: redmine})(issueId, msg.user_id);
+                    })
                     .then((data) => {
                         return msg;
                     });
