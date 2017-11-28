@@ -4,6 +4,7 @@
         defaults: {
             url: {value:"http://localhost:3000", required:true},
             key: {value:"", required:true},
+            impersonate: {value:"impersonate"}
         },
         label: function() {
             return this.url;
@@ -19,5 +20,9 @@
     <div class="form-row">
         <label for="node-config-input-key"><i class="icon-bookmark"></i> API Key</label>
         <input type="text" id="node-config-input-key">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-impersonate"><i class="icon-bookmark"></i> Impersonate</label>
+        <span>msg.</span><input type="text" id="node-config-input-impersonate" style="width:63%">
     </div>
 </script>
