@@ -8,10 +8,25 @@ module.exports = function(RED) {
     function UsersNode(config) {
         RED.nodes.createNode(this,config);
         var node = this;
-        var server = RED.nodes.getNode(config.server);
 
-        var redmine = new Redmine(server.url, {apiKey: server.key});
-        redmine = Promise.promisifyAll(redmine, {suffix:"_async"});
+        function createClient(config, msg) {
+            var server = RED.nodes.getNode(config.server);
+            var redmine = new Redmine(server.url, {
+                apiKey: server.key,
+                impersonate: _.get(msg, server.impersonate)
+            });
+            if (!_.hasIn(redmine, 'impersonate')) {
+                Object.defineProperty(redmine, 'impersonate', {
+                    get: function() {
+                        return this.config.impersonate;
+                    },
+                    set: function(username) {
+                        this.config.impersonate = username;
+                    }
+                });
+            }
+            return redmine;
+        }
 
         // Property
         function retrieveProperty(msg, path, propertyName, isRequired = false) {
@@ -90,12 +105,13 @@ module.exports = function(RED) {
                 node.status({fill:"blue", shape:"ring", text:"listing"});
                 return retrieveFilter(msg, config.filter)
                     .then(Promise.coroutine(function* (params) {
-                        var users = [],
+                        var redmine = createClient(config, msg),
+                            users = [],
                             total_count = 0;
+                        params.limit = 100;
+                        params.offset = users.length;
                         do {
-                            params.limit = 100;
-                            params.offset = users.length;
-                            let data = yield redmine.users_async(params);
+                            let data = yield Promise.promisify(redmine.users, {context: redmine})(params);
                             if (data && _.isArray(data.users) && _.isNumber(data.total_count)) {
                                 if (total_count == data.total_count || total_count === 0) {
                                     users = _.concat(users, data.users);
@@ -121,7 +137,10 @@ module.exports = function(RED) {
                     retrieveUserId(msg, config.userId),
                     retrieveIncludes(config)
                 ])
-                .then((results) => redmine.get_user_by_id_async(results[0], results[1]))
+                .then((results) => {
+                    var redmine = createClient(config, msg);
+                    return Promise.promisify(redmine.get_user_by_id, {context: redmine})(...results);
+                })
                 .then((data) => {
                     msg.payload = data.user;
                     return msg;
@@ -132,10 +151,13 @@ module.exports = function(RED) {
             "create": function createUser(msg) {
                 node.status({fill:"blue", shape:"ring", text:"creating"});
                 return retrieveUserAttributes(msg, config.userAttributes)
-                    .then((attributes) => redmine.create_user_async({
-                        user: attributes,
-                        send_information: !!config.sendInformation
-                    }))
+                    .then((attributes) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.create_user, {context: redmine})({
+                            user: attributes,
+                            send_information: !!config.sendInformation
+                        });
+                    })
                     .then((data) => {
                         msg.payload = data.user;
                         return msg;
@@ -146,20 +168,26 @@ module.exports = function(RED) {
             "update": function updateUser(msg) {
                 node.status({fill:"blue", shape:"ring", text:"updating"});
                 return Promise.all([
-                        retrieveUserId(msg, config.userId),
-                        retrieveUserAttributes(msg, config.userAttributes)
-                    ])
-                    .then((results) => redmine.update_user_async(results[0], { user: results[1] }))
-                    .then((data) => {
-                        return msg;
-                    });
+                    retrieveUserId(msg, config.userId),
+                    retrieveUserAttributes(msg, config.userAttributes)
+                ])
+                .then(([userId, attributes]) => {
+                    var redmine = createClient(config, msg);
+                    return Proise.promisify(redmine.update_user, {context: redmine})(userId, { user: attributes });
+                })
+                .then((data) => {
+                    return msg;
+                });
             },
 
             // Deleting a user
             "delete": function deleteUser(msg) {
                 node.status({fill:"blue", shape:"ring", text:"deleting"});
                 return retrieveUserId(msg, config.userId)
-                    .then((userId) => redmine.delete_user_async(userId))
+                    .then((userId) => {
+                        var redmine = createClient(config, msg);
+                        return Promise.promisify(redmine.delete_user, {context: redmine})(userId);
+                    })
                     .then((data) => {
                         return msg;
                     });
