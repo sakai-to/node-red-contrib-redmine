@@ -29,52 +29,14 @@
             }
         },
         oneditprepare: function() {
-            var node = this;
-            showHidePropertyRows(node.mode);
             $('#node-input-mode').on('change', function() {
-                showHidePropertyRows(this.value);
+                var rowClass = '.redmine-issues-' + this.value;
+                var rows = $('.form-row.redmine-issues');
+                rows.filter(rowClass).show();
+                rows.not(rowClass).hide();
             });
         }
     });
-
-    function showHidePropertyRows(mode) {
-        var issueIdRow = $('.node-input-issue-id-row'),
-            paramsRow = $('.node-input-params-row'),
-            includeRow = $('.node-input-include-row'),
-            allIssuesRow = $('.node-input-all-issues-row');
-        switch (mode) {
-            case "list":
-                issueIdRow.hide();
-                paramsRow.show();
-                includeRow.hide();
-                allIssuesRow.show();
-                break;
-            case "get":
-                issueIdRow.show();
-                paramsRow.hide();
-                includeRow.show();
-                allIssuesRow.hide();
-                break;
-            case "delete":
-                issueIdRow.show();
-                paramsRow.hide();
-                includeRow.hide();
-                allIssuesRow.hide();
-                break;
-            case "update":
-                issueIdRow.show();
-                paramsRow.show();
-                includeRow.hide();
-                allIssuesRow.hide();
-                break;
-            default:
-                issueIdRow.hide();
-                paramsRow.show();
-                includeRow.hide();
-                allIssuesRow.hide();
-                break;
-        }
-    }
 </script>
 
 <script type="text/x-red" data-template-name="issues">
@@ -100,15 +62,15 @@
  -->
         </select>
     </div>
-    <div class="form-row node-input-issue-id-row">
+    <div class="form-row redmine-issues redmine-issues-get redmine-issues-update redmine-issues-delete">
         <label for="node-input-issueIdProperty"><i class="icon-tag"></i> Issue ID</label>
         msg.<input type="text" id="node-input-issueIdProperty" style="width:64%">
     </div>
-    <div class="form-row node-input-params-row">
+    <div class="form-row redmine-issues redmine-issues-list redmine-issues-create redmine-issues-update">
         <label for="node-input-paramsProperty"><i class="icon-tag"></i> Parameters</label>
         msg.<input type="text" id="node-input-paramsProperty" style="width:64%">
     </div>
-    <div class="form-row node-input-include-row">
+    <div class="form-row redmine-issues redmine-issues-get">
         <div>
             <i class="icon-tag"></i> Fetch associated data
         </div>
@@ -143,14 +105,14 @@
             <label for="node-input-includeWatchers" style="width: 70%;">watchers</label>
         </div>
     </div>
-    <div class="form-row node-input-all-issues-row">
+    <div class="form-row redmine-issues redmine-issues-list">
         <div>
             <label>&nbsp;</label>
             <input type="checkbox" id="node-input-allIssues" style="width:auto">
             <label for="node-input-allIssues" style="width: 70%;">fetch all issues</label>
         </div>
     </div>
-    </script>
+</script>
 
 <script type="text/x-red" data-help-name="issues">
     <p>Manipulate Redmine issues.</p>

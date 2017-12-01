@@ -26,65 +26,14 @@
             }
         },
         oneditprepare: function() {
-            var node = this;
-            showHidePropertyRows(node.mode);
             $('#node-input-mode').on('change', function() {
-                showHidePropertyRows(this.value);
+                var rowClass = '.redmine-users-' + this.value;
+                var rows = $('.form-row.redmine-users');
+                rows.filter(rowClass).show();
+                rows.not(rowClass).hide();
             });
         }
     });
-
-    function showHidePropertyRows(mode) {
-        var filterRow = $('.node-input-filter-row'),
-            userIdRow = $('.node-input-user-id-row'),
-            userAttributesRow = $('.node-input-user-attributes-row'),
-            sendInformationRow = $('.node-input-send-information-row');
-            includeRow = $('.node-input-include-row');
-        switch (mode) {
-            case "list":
-                filterRow.show();
-                userIdRow.hide();
-                userAttributesRow.hide();
-                sendInformationRow.hide();
-                includeRow.hide();
-                break;
-            case "create":
-                filterRow.hide();
-                userIdRow.hide();
-                userAttributesRow.show();
-                sendInformationRow.show();
-                includeRow.hide();
-                break;
-            case "get":
-                filterRow.hide();
-                userIdRow.show();
-                userAttributesRow.hide();
-                sendInformationRow.hide();
-                includeRow.show();
-                break;
-            case "update":
-                filterRow.hide();
-                userIdRow.show();
-                userAttributesRow.show();
-                sendInformationRow.hide();
-                includeRow.hide();
-                break;
-            case "delete":
-                filterRow.hide();
-                userIdRow.show();
-                userAttributesRow.hide();
-                sendInformationRow.hide();
-                includeRow.hide();
-                break;
-            default:
-                filterRow.hide();
-                userIdRow.hide();
-                userAttributesRow.hide();
-                sendInformationRow.hide();
-                includeRow.hide();
-                break;
-        }
-    }
 </script>
 
 <script type="text/x-red" data-template-name="users">
@@ -106,24 +55,24 @@
             <option value="delete">Delete a user</option>
         </select>
     </div>
-    <div class="form-row node-input-filter-row">
+    <div class="form-row redmine-users redmine-users-list">
         <label for="node-input-filter"><i class="icon-tag"></i> Filter</label>
         msg.<input type="text" id="node-input-filter" style="width:64%">
     </div>
-    <div class="form-row node-input-user-id-row">
+    <div class="form-row redmine-users redmine-users-get redmine-users-update redmine-users-delete">
         <label for="node-input-userId"><i class="icon-tag"></i> User ID</label>
         msg.<input type="text" id="node-input-userId" style="width:64%">
     </div>
-    <div class="form-row node-input-user-attributes-row">
+    <div class="form-row redmine-users redmine-users-create redmine-users-update">
         <label for="node-input-userAttributes"><i class="icon-tag"></i> User attributes</label>
         msg.<input type="text" id="node-input-userAttributes" style="width:64%">
     </div>
-    <div class="form-row node-input-send-information-row">
+    <div class="form-row redmine-users redmine-users-create">
         <label>&nbsp;</label>
         <input type="checkbox" id="node-input-sendInformation" style="width:auto">
         <label for="node-input-sendInformation" style="width:auto;">Send information</label>
     </div>
-    <div class="form-row node-input-include-row">
+    <div class="form-row redmine-users redmine-users-get">
         <div>
             <i class="icon-tag"></i> Associations to include
         </div>
